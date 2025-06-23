@@ -10,8 +10,11 @@ public final class AdminTools extends JavaPlugin
     @Override
     public void onEnable()
     {
+        plugin = this;
         Loader loader = new Loader(this);
-
+        loader.registerMotd();
+        loader.registerCommands();
+        loader.registerListeners();
     }
 
     @Override

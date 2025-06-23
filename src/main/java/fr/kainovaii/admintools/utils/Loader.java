@@ -2,14 +2,21 @@ package fr.kainovaii.admintools.utils;
 
 import fr.kainovaii.admintools.AdminTools;
 import co.aikar.commands.PaperCommandManager;
+import fr.kainovaii.admintools.commands.InfoCommand;
+import fr.kainovaii.admintools.commands.MainCommand;
+import fr.kainovaii.admintools.commands.StaffChatCommand;
 
 public class Loader
 {
-    AdminTools plugin;
+    private final AdminTools plugin;
+    StaffChatManager staffChatManager;
+    PaperCommandManager commandManager;
 
     public Loader(AdminTools plugin)
     {
         this.plugin = plugin;
+        this.commandManager = new PaperCommandManager(plugin);
+        this.staffChatManager = new StaffChatManager();
     }
 
     public void registerMotd()
@@ -26,6 +33,14 @@ public class Loader
     public void registerCommands()
     {
         plugin.getLogger().info("Loading commands");
-        PaperCommandManager paperCommandManager = new PaperCommandManager(plugin);
+        commandManager.registerCommand(new MainCommand());
+        commandManager.registerCommand(new InfoCommand());
+        commandManager.registerCommand(new StaffChatCommand(this.staffChatManager));
+    }
+
+    public void registerListeners()
+    {
+        plugin.getLogger().info("Loading listeners");
+        plugin.getServer().getPluginManager().registerEvents(staffChatManager, plugin);
     }
 }
