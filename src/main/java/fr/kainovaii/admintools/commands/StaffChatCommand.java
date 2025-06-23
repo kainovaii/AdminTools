@@ -44,27 +44,4 @@ public class StaffChatCommand extends BaseCommand
     {
         manager.toggle(player);
     }
-
-    @EventHandler
-    public void onChat(AsyncChatEvent event)
-    {
-        Player player = event.getPlayer();
-
-        player.sendMessage(toggledPlayers.toString());
-
-        if (toggledPlayers.contains(player.getUniqueId())) return;
-
-        event.setCancelled(true);
-        event.viewers().clear();
-
-        String message = PlainTextComponentSerializer.plainText().serialize(event.originalMessage());
-        String formatted = "§7[§6StaffChat§7] §f" + player.getName() + " §7» §f" + message;
-
-        for (Player target : Bukkit.getOnlinePlayers()) {
-            if (target.hasPermission("staffchat.view"))
-            {
-                target.sendMessage(formatted);
-            }
-        }
-    }
 }
