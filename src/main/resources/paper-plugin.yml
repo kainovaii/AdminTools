@@ -1,0 +1,4 @@
+name: AdminTools
+version: '0.1'
+main: fr.kainovaii.admintools.AdminTools
+api-version: '1.21'
