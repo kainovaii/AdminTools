@@ -11,9 +11,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class StaffChatManager implements Listener {
-
+public class StaffChatManager implements Listener
+{
     private final Set<UUID> toggledPlayers = new HashSet<>();
+
+    public boolean isToggled(Player player) { return toggledPlayers.contains(player.getUniqueId()); }
 
     public void toggle(Player player)
     {
@@ -27,19 +29,13 @@ public class StaffChatManager implements Listener {
         }
     }
 
-    public boolean isToggled(Player player) {
-        return toggledPlayers.contains(player.getUniqueId());
-    }
-
     @EventHandler
     public void onChat(AsyncChatEvent event)
     {
         Player player = event.getPlayer();
         if (!isToggled(player)) return;
-
         event.setCancelled(true);
         event.viewers().clear();
-
         String message = PlainTextComponentSerializer.plainText().serialize(event.originalMessage());
         String formatted = "§7[§6StaffChat§7] §f" + player.getName() + " §7» §f" + message;
 
@@ -50,4 +46,5 @@ public class StaffChatManager implements Listener {
             }
         }
     }
+
 }

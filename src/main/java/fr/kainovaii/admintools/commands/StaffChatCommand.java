@@ -3,30 +3,20 @@ package fr.kainovaii.admintools.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import fr.kainovaii.admintools.utils.StaffChatManager;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import io.papermc.paper.event.player.AsyncChatEvent;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
 
 @CommandAlias("staffchat|sc")
 @Description("Permet de parler ou d'activer le mode Staff Chat.")
 public class StaffChatCommand extends BaseCommand
 {
     private final StaffChatManager manager;
-    private final Set<UUID> toggledPlayers = new HashSet<>();
 
-    public StaffChatCommand(StaffChatManager staffChatManager) {
-        this.manager = staffChatManager;
-    }
+    public StaffChatCommand(StaffChatManager staffChatManager) {  this.manager = staffChatManager; }
 
     @Default
     @Syntax("<message>")
+    @CommandPermission("staffchat.view")
     @Description("Envoie un message dans le chat staff")
     public void send(Player player, @Single String message)
     {
@@ -40,8 +30,6 @@ public class StaffChatCommand extends BaseCommand
 
     @Subcommand("toggle")
     @Description("Active/désactive le mode staff chat")
-    public void onToggle(Player player)
-    {
-        manager.toggle(player);
-    }
+    @CommandPermission("staffchat.view")
+    public void onToggle(Player player) { manager.toggle(player); }
 }
