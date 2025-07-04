@@ -18,14 +18,9 @@ public class StaffChatCommand extends BaseCommand
     @Syntax("<message>")
     @CommandPermission("staffchat.view")
     @Description("Envoie un message dans le chat staff")
-    public void send(Player player, @Single String message)
+    public void send(Player player, @Split String message)
     {
-        String formatted = "§7[§6StaffChat§7] §f" + player.getName() + " §7» §f" + message;
-        for (Player target : Bukkit.getOnlinePlayers()) {
-            if (target.hasPermission("staff.chat")) {
-                target.sendMessage(formatted);
-            }
-        }
+        StaffChatManager.chatFormat(player, message);
     }
 
     @Subcommand("toggle")

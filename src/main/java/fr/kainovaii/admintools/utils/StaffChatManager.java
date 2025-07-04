@@ -36,9 +36,14 @@ public class StaffChatManager implements Listener
         if (!isToggled(player)) return;
         event.setCancelled(true);
         event.viewers().clear();
-        String message = PlainTextComponentSerializer.plainText().serialize(event.originalMessage());
-        String formatted = "§7[§6StaffChat§7] §f" + player.getName() + " §7» §f" + message;
+        String message = PlainTextComponentSerializer.plainText().serialize(event.originalMessage()).replace("&", "§");
 
+        chatFormat(player, message);
+    }
+
+    public static void chatFormat(Player player, String message)
+    {
+        String formatted = "§7[§6StaffChat§7] §f" + player.getName() + " §7§l» §f" + message;
         for (Player target : Bukkit.getOnlinePlayers()) {
             if (target.hasPermission("staffchat.view"))
             {
@@ -46,5 +51,4 @@ public class StaffChatManager implements Listener
             }
         }
     }
-
 }
